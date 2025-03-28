@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
@@ -40,36 +39,78 @@ const Index = () => {
     return () => clearInterval(uptimeInterval);
   }, []);
   
-  // Simulate sensor data updates
+  // Simulate sensor data updates with more realistic timing
   useEffect(() => {
-    const updateSensors = () => {
+    // Update all sensors with normal readings every 3 seconds
+    const normalUpdateInterval = setInterval(() => {
       setLastSyncTime(new Date());
-      const updatedSensors = [...sensors];
       
-      // Randomly choose one sensor to update for more realistic simulation
-      const randomIndex = Math.floor(Math.random() * updatedSensors.length);
-      const targetSensor = updatedSensors[randomIndex];
+      // Update all sensors with normal readings
+      setSensors(prevSensors => {
+        return prevSensors.map(sensor => {
+          // Create a normal reading (low values)
+          const normalReading: SensorReading = {
+            id: `${sensor.id}-${new Date().getTime()}`,
+            timestamp: new Date(),
+            value: sensor.type === 'motion' 
+              ? Math.floor(Math.random() * 20) // 0-20 for motion
+              : Math.floor(Math.random() * 15), // 0-15 for smoke
+            type: sensor.type,
+            location: sensor.location,
+            status: 'normal'
+          };
+          
+          return updateSensorWithReading(sensor, normalReading);
+        });
+      });
+    }, 3000);
+    
+    // Generate alerts occasionally (every 15-60 seconds randomly)
+    const generateRandomAlert = () => {
+      // Pick a random sensor to generate an alert for
+      const randomSensorIndex = Math.floor(Math.random() * sensors.length);
+      const targetSensor = sensors[randomSensorIndex];
       
-      const newReading = generateRandomReading(targetSensor);
-      updatedSensors[randomIndex] = updateSensorWithReading(targetSensor, newReading);
+      // Generate a reading that will trigger an alert
+      const alertReading = generateRandomReading(targetSensor);
       
-      setSensors(updatedSensors);
-      
-      // Only add to events log and show alert if there's a warning or danger
-      if (newReading.status !== 'normal') {
-        setEvents(prev => [...prev, newReading]);
-        handleSensorAlert(newReading);
+      // Force it to be a warning or danger state for testing
+      if (Math.random() < 0.5) {
+        alertReading.status = 'warning';
+        alertReading.value = targetSensor.type === 'motion' ? 75 : 65;
+      } else {
+        alertReading.status = 'danger';
+        alertReading.value = targetSensor.type === 'motion' ? 95 : 85;
       }
+      
+      // Update the sensor and add to events log
+      setSensors(prevSensors => {
+        const updatedSensors = [...prevSensors];
+        updatedSensors[randomSensorIndex] = updateSensorWithReading(targetSensor, alertReading);
+        return updatedSensors;
+      });
+      
+      setEvents(prev => [alertReading, ...prev]);
+      handleSensorAlert(alertReading);
+      
+      // Schedule next alert
+      scheduleNextAlert();
     };
     
-    // Update every 5 seconds
-    const interval = setInterval(updateSensors, 5000);
+    // Schedule next random alert
+    const scheduleNextAlert = () => {
+      // Random time between 15-60 seconds
+      const nextAlertTime = 15000 + Math.random() * 45000;
+      setTimeout(generateRandomAlert, nextAlertTime);
+    };
     
-    // Initial update
-    updateSensors();
+    // Start the random alert cycle
+    scheduleNextAlert();
     
-    return () => clearInterval(interval);
-  }, [sensors]);
+    return () => {
+      clearInterval(normalUpdateInterval);
+    };
+  }, []); // Empty dependency array to run only once on mount
   
   return (
     <div className="min-h-screen bg-gray-50">

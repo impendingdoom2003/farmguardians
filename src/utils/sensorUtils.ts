@@ -92,8 +92,8 @@ export const generateRandomReading = (sensor: SensorData): SensorReading => {
   
   // Motion sensor (0-100 where >70 is animal detection)
   if (sensor.type === "motion") {
-    // 15% chance of detection for simulation
-    if (Math.random() < 0.15) {
+    // 5% chance of detection for more realistic simulation (reduced from 15%)
+    if (Math.random() < 0.05) {
       value = Math.floor(Math.random() * 30) + 70; // 70-100 range (detection)
       status = value > 90 ? "danger" : "warning";
     } else {
@@ -102,8 +102,8 @@ export const generateRandomReading = (sensor: SensorData): SensorReading => {
   } 
   // Smoke sensor (0-100 where >60 is smoke detection)
   else if (sensor.type === "smoke") {
-    // 10% chance of smoke detection for simulation
-    if (Math.random() < 0.10) {
+    // 3% chance of smoke detection for more realistic simulation (reduced from 10%)
+    if (Math.random() < 0.03) {
       value = Math.floor(Math.random() * 40) + 60; // 60-100 range (detection)
       status = value > 80 ? "danger" : "warning";
     } else {
