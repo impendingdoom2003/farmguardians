@@ -2,8 +2,7 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/7813bea9-79d7-4c03-b79d-4b21e725f971
-
+**URL**: https://farmguardians-one.vercel.app/
 ## How can I edit this code?
 
 There are several ways of editing your application.
