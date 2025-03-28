@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,34 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Farm theme colors
+				farm: {
+					green: {
+						light: '#8BC34A',
+						DEFAULT: '#689F38',
+						dark: '#33691E'
+					},
+					earth: {
+						light: '#A1887F',
+						DEFAULT: '#795548',
+						dark: '#5D4037'
+					},
+					sky: {
+						light: '#90CAF9',
+						DEFAULT: '#64B5F6',
+						dark: '#1E88E5'
+					},
+					warning: {
+						light: '#FFB74D',
+						DEFAULT: '#FF9800',
+						dark: '#F57C00'
+					},
+					danger: {
+						light: '#EF5350',
+						DEFAULT: '#F44336',
+						dark: '#D32F2F'
+					}
 				}
 			},
 			borderRadius: {
@@ -84,11 +113,21 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-warning': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.6' }
+				},
+				'pulse-danger': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.6' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-warning': 'pulse-warning 2s infinite',
+				'pulse-danger': 'pulse-danger 1s infinite'
 			}
 		}
 	},
