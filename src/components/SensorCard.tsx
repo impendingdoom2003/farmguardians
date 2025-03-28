@@ -1,9 +1,9 @@
 
-import React from 'react';
+import * as React from 'react';
 import { SensorData } from '@/utils/sensorUtils';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Battery, Flame, PawPrint, X } from 'lucide-react';
+import { Battery, Flame, PawPrint } from 'lucide-react';
 
 type SensorCardProps = {
   sensor: SensorData;
