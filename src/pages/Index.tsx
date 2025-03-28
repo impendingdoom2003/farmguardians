@@ -1,5 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import SensorGrid from '@/components/SensorGrid';
 import EventLog from '@/components/EventLog';
